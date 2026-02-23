@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>记忆训练打卡系统</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>🧠 记忆训练打卡系统</h1>
+            <div class="date-display" id="currentDate"></div>
+        </header>
+
+        <nav class="main-nav">
+            <button class="nav-btn active" data-section="home">🏠 首页</button>
+            <button class="nav-btn" data-section="basic">📚 达标训练</button>
+            <button class="nav-btn" data-section="intermediate">⭐ 进阶训练</button>
+            <button class="nav-btn" data-section="advanced">👑 高阶训练</button>
+            <button class="nav-btn" data-section="records">📊 打卡记录</button>
+        </nav>
+
+        <main id="mainContent">
+            <!-- 首页 -->
+            <section id="homeSection" class="section active">
+                <div class="welcome-card">
+                    <h2>欢迎来到记忆训练打卡系统</h2>
+                    <p>每天坚持训练，提升您的记忆能力！</p>
+                </div>
+                <div class="today-stats" id="todayStats">
+                    <h3>今日打卡情况</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">达标训练</span>
+                            <span class="stat-value" id="basicStatus">未完成</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">进阶训练</span>
+                            <span class="stat-value" id="intermediateStatus">未完成</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">高阶训练</span>
+                            <span class="stat-value" id="advancedStatus">未完成</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="quick-start">
+                    <h3>快速开始</h3>
+                    <div class="training-cards">
+                        <div class="training-card" onclick="startBasicTraining()">
+                            <div class="card-icon">📚</div>
+                            <div class="card-title">达标训练</div>
+                            <div class="card-desc">英语单词+古诗背诵</div>
+                        </div>
+                        <div class="training-card" onclick="startIntermediateTraining()">
+                            <div class="card-icon">⭐</div>
+                            <div class="card-title">进阶训练</div>
+                            <div class="card-desc">数字+词汇记忆</div>
+                        </div>
+                        <div class="training-card" onclick="startAdvancedTraining()">
+                            <div class="card-icon">👑</div>
+                            <div class="card-title">高阶训练</div>
+                            <div class="card-desc">字母+扑克牌记忆</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 达标训练 -->
+            <section id="basicSection" class="section">
+                <h2>📚 达标训练</h2>
+                <div class="training-tabs">
+                    <button class="tab-btn active" data-tab="word">英语单词</button>
+                    <button class="tab-btn" data-tab="poem">古诗背诵</button>
+                </div>
+
+                <!-- 英语单词训练 -->
+                <div id="wordTraining" class="training-content active">
+                    <div class="training-info">
+                        <p>训练内容：每次5个单词，根据中文意思拼写英文单词</p>
+                    </div>
+                    <div id="wordStartPhase" class="phase-container">
+                        <h3>📚 英语单词记忆训练</h3>
+                        <p class="phase-desc">本训练包含5个英语单词，点击"开始学习"后，请认真记忆每个单词的拼写、音标和中文意思。</p>
+                        <button class="btn-primary" onclick="initWordTraining()">开始学习</button>
+                    </div>
+                    <div id="wordStudyPhase" class="phase-container hidden">
+                        <h3>📖 学习阶段</h3>
+                        <p class="phase-timer">计时：<span id="wordTimer">00:00</span></p>
+                        <div class="word-list" id="wordList"></div>
+                        <button class="btn-primary" onclick="startWordTest()">开始测试</button>
+                    </div>
+                    <div id="wordTestPhase" class="phase-container hidden">
+                        <h3>✏️ 测试阶段</h3>
+                        <p class="phase-timer">计时：<span id="wordTimerTest">00:00</span></p>
+                        <div class="test-items" id="wordTestItems"></div>
+                        <button class="btn-primary" onclick="submitWordTest()">提交答案</button>
+                    </div>
+                    <div id="wordResultPhase" class="phase-container hidden">
+                        <h3>📊 测试结果</h3>
+                        <div class="result-summary" id="wordResultSummary"></div>
+                        <button class="btn-primary" onclick="resetWordTraining()">重新训练</button>
+                    </div>
+                </div>
+
+                <!-- 古诗训练 -->
+                <div id="poemTraining" class="training-content">
+                    <div class="training-info">
+                        <p>训练内容：随机抽取一首古诗，学习后背诵</p>
+                    </div>
+                    <div id="poemStartPhase" class="phase-container">
+                        <h3>📚 古诗背诵训练</h3>
+                        <p class="phase-desc">本训练包含一首古诗，点击"开始学习"后，请认真记忆古诗内容和拼音。</p>
+                        <button class="btn-primary" onclick="initPoemTraining()">开始学习</button>
+                    </div>
+                    <div id="poemStudyPhase" class="phase-container hidden">
+                        <h3>📖 学习阶段</h3>
+                        <p class="phase-timer">计时：<span id="poemTimer">00:00</span></p>
+                        <div class="poem-card" id="poemCard"></div>
+                        <button class="btn-primary" onclick="startPoemTest()">开始背诵测试</button>
+                    </div>
+                    <div id="poemTestPhase" class="phase-container hidden">
+                        <h3>🎤 背诵测试</h3>
+                        <p class="phase-timer">计时：<span id="poemTimerTest">00:00</span></p>
+                        <div class="poem-test">
+                            <p class="poem-test-hint">请根据标点符号提示，背诵出古诗：</p>
+                            <div class="poem-prompt" id="poemPrompt"></div>
+                            <div class="poem-input-area" id="poemInputArea"></div>
+                        </div>
+                        <button class="btn-primary" onclick="submitPoemTest()">提交</button>
+                    </div>
+                    <div id="poemResultPhase" class="phase-container hidden">
+                        <h3>📊 测试结果</h3>
+                        <div class="result-summary" id="poemResultSummary"></div>
+                        <button class="btn-primary" onclick="resetPoemTraining()">重新训练</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 进阶训练 -->
+            <section id="intermediateSection" class="section">
+                <h2>⭐ 进阶训练</h2>
+                <div class="training-tabs">
+                    <button class="tab-btn active" data-tab="number">数字记忆</button>
+                    <button class="tab-btn" data-tab="vocab">词汇记忆</button>
+                </div>
+
+                <!-- 数字记忆 -->
+                <div id="numberTraining" class="training-content active">
+                    <div class="training-info">
+                        <p>训练内容：40个随机数字，5分钟内记忆</p>
+                    </div>
+                    <div id="numberStartPhase" class="phase-container">
+                        <h3>📚 数字记忆训练</h3>
+                        <p class="phase-desc">本训练包含40个随机数字，点击"开始训练"后，请在5分钟内记住数字的顺序。</p>
+                        <button class="btn-primary" onclick="initNumberTraining()">开始训练</button>
+                    </div>
+                    <div id="numberStudyPhase" class="phase-container hidden">
+                        <h3>📖 记忆阶段</h3>
+                        <p class="phase-countdown">倒计时：<span id="numberCountdown">05:00</span></p>
+                        <p class="time-hint">请在5分钟内记住以下数字顺序</p>
+                        <div class="number-grid" id="numberGrid"></div>
+                        <button class="btn-primary" onclick="startNumberTest()">开始测试</button>
+                    </div>
+                    <div id="numberTestPhase" class="phase-container hidden">
+                        <h3>✏️ 测试阶段</h3>
+                        <p class="test-hint">请按顺序输入刚才的数字：</p>
+                        <div class="number-input-grid" id="numberInputGrid"></div>
+                        <button class="btn-primary" onclick="submitNumberTest()">提交答案</button>
+                    </div>
+                    <div id="numberResultPhase" class="phase-container hidden">
+                        <h3>📊 测试结果</h3>
+                        <div class="result-summary" id="numberResultSummary"></div>
+                        <button class="btn-primary" onclick="resetNumberTraining()">重新训练</button>
+                    </div>
+                </div>
+
+                <!-- 词汇记忆 -->
+                <div id="vocabTraining" class="training-content">
+                    <div class="training-info">
+                        <p>训练内容：20组随机词汇，5分钟内记忆</p>
+                    </div>
+                    <div id="vocabStartPhase" class="phase-container">
+                        <h3>📚 词汇记忆训练</h3>
+                        <p class="phase-desc">本训练包含20个随机词汇，点击"开始训练"后，请在5分钟内记住词汇的顺序。</p>
+                        <button class="btn-primary" onclick="initVocabTraining()">开始训练</button>
+                    </div>
+                    <div id="vocabStudyPhase" class="phase-container hidden">
+                        <h3>📖 记忆阶段</h3>
+                        <p class="phase-countdown">倒计时：<span id="vocabCountdown">05:00</span></p>
+                        <p class="time-hint">请在5分钟内记住以下词汇顺序</p>
+                        <div class="vocab-list" id="vocabList"></div>
+                        <button class="btn-primary" onclick="startVocabTest()">开始测试</button>
+                    </div>
+                    <div id="vocabTestPhase" class="phase-container hidden">
+                        <h3>✏️ 测试阶段</h3>
+                        <p class="test-hint">请按顺序输入刚才的词汇：</p>
+                        <div class="vocab-input-list" id="vocabInputList"></div>
+                        <button class="btn-primary" onclick="submitVocabTest()">提交答案</button>
+                    </div>
+                    <div id="vocabResultPhase" class="phase-container hidden">
+                        <h3>📊 测试结果</h3>
+                        <div class="result-summary" id="vocabResultSummary"></div>
+                        <button class="btn-primary" onclick="resetVocabTraining()">重新训练</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 高阶训练 -->
+            <section id="advancedSection" class="section">
+                <h2>👑 高阶训练</h2>
+                <div class="training-tabs">
+                    <button class="tab-btn active" data-tab="letter">字母记忆</button>
+                    <button class="tab-btn" data-tab="poker">扑克牌记忆</button>
+                </div>
+
+                <!-- 字母记忆 -->
+                <div id="letterTraining" class="training-content active">
+                    <div class="training-info">
+                        <p>训练内容：20个随机字母，宫格排列</p>
+                    </div>
+                    <div id="letterStartPhase" class="phase-container">
+                        <h3>📚 字母记忆训练</h3>
+                        <p class="phase-desc">本训练包含20个随机字母，点击"开始训练"后，请在5分钟内记住字母的顺序。</p>
+                        <button class="btn-primary" onclick="initLetterTraining()">开始训练</button>
+                    </div>
+                    <div id="letterStudyPhase" class="phase-container hidden">
+                        <h3>📖 记忆阶段</h3>
+                        <p class="phase-countdown">倒计时：<span id="letterCountdown">05:00</span></p>
+                        <p class="time-hint">请在5分钟内记住以下字母顺序</p>
+                        <div class="letter-grid" id="letterGrid"></div>
+                        <button class="btn-primary" onclick="startLetterTest()">开始测试</button>
+                    </div>
+                    <div id="letterTestPhase" class="phase-container hidden">
+                        <h3>✏️ 测试阶段</h3>
+                        <p class="test-hint">请按顺序输入刚才的字母：</p>
+                        <div class="letter-input-grid" id="letterInputGrid"></div>
+                        <button class="btn-primary" onclick="submitLetterTest()">提交答案</button>
+                    </div>
+                    <div id="letterResultPhase" class="phase-container hidden">
+                        <h3>📊 测试结果</h3>
+                        <div class="result-summary" id="letterResultSummary"></div>
+                        <button class="btn-primary" onclick="resetLetterTraining()">重新训练</button>
+                    </div>
+                </div>
+
+                <!-- 扑克牌记忆 -->
+                <div id="pokerTraining" class="training-content">
+                    <div class="training-info">
+                        <p>训练内容：30张随机扑克牌，5分钟内记忆顺序</p>
+                    </div>
+                    <div id="pokerStartPhase" class="phase-container">
+                        <h3>📚 扑克牌记忆训练</h3>
+                        <p class="phase-desc">本训练包含30张随机扑克牌，点击"开始训练"后，请在5分钟内记住扑克牌的顺序。</p>
+                        <button class="btn-primary" onclick="initPokerTraining()">开始训练</button>
+                    </div>
+                    <div id="pokerStudyPhase" class="phase-container hidden">
+                        <h3>📖 记忆阶段</h3>
+                        <p class="phase-countdown">倒计时：<span id="pokerCountdown">05:00</span></p>
+                        <p class="time-hint">请在5分钟内记住以下扑克牌顺序</p>
+                        <div class="poker-grid" id="pokerGrid"></div>
+                        <button class="btn-primary" onclick="startPokerTest()">开始测试</button>
+                    </div>
+                    <div id="pokerTestPhase" class="phase-container hidden">
+                        <h3>✏️ 测试阶段</h3>
+                        <p class="test-hint">请按顺序选择扑克牌：</p>
+                        <div class="poker-input-grid" id="pokerInputGrid"></div>
+                        <button class="btn-primary" onclick="submitPokerTest()">提交答案</button>
+                    </div>
+                    <div id="pokerResultPhase" class="phase-container hidden">
+                        <h3>📊 测试结果</h3>
+                        <div class="result-summary" id="pokerResultSummary"></div>
+                        <button class="btn-primary" onclick="resetPokerTraining()">重新训练</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 打卡记录 -->
+            <section id="recordsSection" class="section">
+                <h2>📊 打卡记录</h2>
+                <div class="records-filter">
+                    <select id="recordsDateFilter">
+                        <option value="all">全部日期</option>
+                    </select>
+                    <select id="recordsTypeFilter">
+                        <option value="all">全部类型</option>
+                        <option value="basic">达标训练</option>
+                        <option value="intermediate">进阶训练</option>
+                        <option value="advanced">高阶训练</option>
+                    </select>
+                    <button class="btn-secondary" onclick="filterRecords()">筛选</button>
+                </div>
+                <div class="records-table-container">
+                    <table class="records-table" id="recordsTable">
+                        <thead>
+                            <tr>
+                                <th>日期</th>
+                                <th>训练类型</th>
+                                <th>项目</th>
+                                <th>完成时间</th>
+                                <th>正确数</th>
+                                <th>错误数</th>
+                                <th>准确率</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recordsBody"></tbody>
+                    </table>
+                </div>
+                <div class="records-summary" id="recordsSummary"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
