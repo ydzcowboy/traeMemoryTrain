@@ -720,17 +720,17 @@ h2 {
 .poker-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-    margin-bottom: 25px;
+    gap: 4px;
+    margin-bottom: 15px;
 }
 
 .poker-card {
     background: white;
     border: 2px solid #ddd;
-    border-radius: 8px;
-    padding: 12px 5px;
+    border-radius: 6px;
+    padding: 8px 2px;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
 }
 
@@ -744,20 +744,20 @@ h2 {
 
 .poker-input-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-    gap: 10px;
-    margin-bottom: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 6px;
+    margin-bottom: 20px;
 }
 
 .poker-input-item {
     background: #f8f9fa;
     border: 2px solid #ddd;
-    border-radius: 8px;
-    padding: 8px;
+    border-radius: 6px;
+    padding: 6px;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;
-    min-height: 50px;
+    min-height: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -978,11 +978,15 @@ h2 {
     }
 
     .poker-grid {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(6, 1fr);
     }
 
     .number-input-grid,
     .letter-input-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .poker-input-grid {
         grid-template-columns: repeat(5, 1fr);
     }
 
@@ -994,7 +998,31 @@ h2 {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .poker-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    .poker-card {
+        padding: 6px 2px;
+        font-size: 0.9rem;
+    }
+
     .training-cards {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .poker-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .poker-card {
+        padding: 4px 1px;
+        font-size: 0.8rem;
+    }
+
+    .poker-input-grid {
+        grid-template-columns: repeat(5, 1fr);
     }
 }
