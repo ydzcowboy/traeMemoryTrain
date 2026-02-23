@@ -608,10 +608,17 @@ h2 {
 }
 
 .number-input-grid,
-.letter-input-grid,
-.vocab-input-list {
+.letter-input-grid {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    margin-bottom: 25px;
+    max-width: 100%;
+}
+
+.vocab-input-list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: 6px;
     margin-bottom: 25px;
     max-width: 100%;
@@ -691,11 +698,13 @@ h2 {
 }
 
 .vocab-input-list input {
-    padding: 12px;
+    padding: 6px 4px;
     border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
     transition: border-color 0.3s;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .vocab-input-list input.correct {
@@ -975,6 +984,10 @@ h2 {
     .number-input-grid,
     .letter-input-grid {
         grid-template-columns: repeat(5, 1fr);
+    }
+
+    .vocab-input-list {
+        grid-template-columns: repeat(4, 1fr);
     }
 
     .vocab-list {
